@@ -1,3 +1,100 @@
-object cosas {
-    
+object knightRider {
+  method peso() = 500
+  method peligrosidad() = 10 
+}
+
+object robot {
+  method peligrosidad() = 30
+}
+
+object auto {
+  method peligrosidad() = 15 
+}
+
+object bumblebee {
+  method peso() = 800
+  var transformacion = robot
+  method transformacion(tipo) {transformacion = tipo} 
+  method peligrosidad() = transformacion.peligrosidad()
+}
+
+object ladrillos {
+  var cantidad = 100
+  method cantidad(cantX) {cantidad = cantX}
+  method peso() = cantidad * 2
+  method peligrosidad() = 2
+}
+
+object arena {
+  var peso = 100
+  method peso(pesoX) {peso = pesoX}
+  method peso() = peso 
+  method peligrosidad() = 1  
+}
+
+object bateria {
+  var tieneMisiles = true
+  var peso = 0
+  var peligrosidad = 0
+  method tieneMisiles(estado) {tieneMisiles = estado}
+
+  method peso() {
+    if (tieneMisiles) 
+    {
+        peso = 300
+    } else {
+        peso = 200
+    }
+    return peso
+  }
+
+  method peligrosidad() {
+    if(tieneMisiles) {
+        peligrosidad = 100
+    } else {
+        peligrosidad = 0
+    }
+    return peligrosidad
+  }
+}
+
+object contenedor {
+  const cosas = #{}
+  var peligrosidad = 0
+
+  method agregarCosas(cosa) {
+    cosas.add(cosa)
+  }
+
+  method peso() {
+    return 100 + cosas.size()
+  }
+
+  method masPeligroso() {
+    return cosas.max({c => c.masPeligroso()})
+  }
+
+  method peligrosidad() {
+    if (cosas.size() == 0) {
+        peligrosidad = 0
+    } else {
+        peligrosidad = self.masPeligroso()
+    }
+    return peligrosidad
+  }
+}
+
+
+object residuos {
+  var peso = 25
+  method peso(pesoX) {peso = pesoX}
+  method peso() = peso 
+  method peligrosidad() = 200 
+}
+
+object embalaje {
+  var tieneDentro = bateria
+  method tieneDentro(cosa){tieneDentro = cosa}
+  method peso() = tieneDentro.peso()
+  method peligrosidad() = tieneDentro.peligrosidad() / 2   
 }
