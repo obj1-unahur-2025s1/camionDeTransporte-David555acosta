@@ -2,9 +2,11 @@ import cosas.*
 
 object camion {
   method tara() = 1000
+  var cantBultos = 0
   const carga = #{}
 
   method cargar(cosa) {
+    cosa.reaccion()
     carga.add(cosa)
   }
 
@@ -33,7 +35,19 @@ object camion {
   }
 
   method puedeCircularEnRuta(maximoPeligrosidad) {
-    return not self.estaExcedido() and carga.any({c => not c.peso() == maximoPeligrosidad})
+    return not self.estaExcedido() and carga.any({c => not c.peso() >= maximoPeligrosidad})
+  }
+
+  method maximoCamion() {
+    return carga.max({c => c.peso()})
+  }
+
+  method hayCosaConPesoEntre(minimo , maximo) {
+    return carga.any({c => c.peso()}).between(minimo, maximo)
+  }
+
+  method mostrarCamion() {
+    return carga
   }
 }
 

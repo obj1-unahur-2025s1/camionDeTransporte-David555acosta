@@ -1,6 +1,10 @@
+import camion.*
+
 object knightRider {
   method peso() = 500
   method peligrosidad() = 10 
+  method reaccion() {}
+  method cantBultos() = 1 
 }
 
 object robot {
@@ -16,6 +20,10 @@ object bumblebee {
   var transformacion = robot
   method transformacion(tipo) {transformacion = tipo} 
   method peligrosidad() = transformacion.peligrosidad()
+  method reaccion() {
+    transformacion = robot
+  }
+  method cantBultos() = 2
 }
 
 object ladrillos {
@@ -23,13 +31,21 @@ object ladrillos {
   method cantidad(cantX) {cantidad = cantX}
   method peso() = cantidad * 2
   method peligrosidad() = 2
+  method reaccion() {
+    cantidad = cantidad + 12
+  }
 }
 
 object arena {
   var peso = 100
   method peso(pesoX) {peso = pesoX}
   method peso() = peso 
-  method peligrosidad() = 1  
+  method peligrosidad() = 1
+  method reaccion() {
+    peso = peso - 10
+  }
+
+  method cantBultos() = 1 
 }
 
 object bateria {
@@ -55,6 +71,10 @@ object bateria {
         peligrosidad = 0
     }
     return peligrosidad
+  }
+
+  method reaccion() {
+    tieneMisiles = true
   }
 }
 
@@ -82,6 +102,10 @@ object contenedor {
     }
     return peligrosidad
   }
+
+  method reaccion() {
+    cosas.forEach({c => c.reaccion()})
+  }
 }
 
 
@@ -89,12 +113,22 @@ object residuos {
   var peso = 25
   method peso(pesoX) {peso = pesoX}
   method peso() = peso 
-  method peligrosidad() = 200 
+  method peligrosidad() = 200
+  method reaccion() {
+    peso = peso + 15
+  }
+
+  method cantBultos() = 1 
 }
 
 object embalaje {
   var tieneDentro = bateria
   method tieneDentro(cosa){tieneDentro = cosa}
   method peso() = tieneDentro.peso()
-  method peligrosidad() = tieneDentro.peligrosidad() / 2   
+  method peligrosidad() = tieneDentro.peligrosidad() / 2
+  method reaccion() {
+    
+  }
+
+  method cantBultos() = 0
 }
