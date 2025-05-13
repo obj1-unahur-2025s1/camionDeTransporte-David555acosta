@@ -28,11 +28,31 @@ object bumblebee {
 
 object ladrillos {
   var cantidad = 100
+  var bultos = 0
   method cantidad(cantX) {cantidad = cantX}
   method peso() = cantidad * 2
   method peligrosidad() = 2
   method reaccion() {
     cantidad = cantidad + 12
+  }
+  /*
+  Paquete de ladrillos depende de la cantidad de ladrilos:
+  hasta 100 ladrillos ocupa 1 bulto.
+  Entre 101 y 300, 2 bultos.
+  301 o más, ocupa 3 bultos.
+  */
+
+  method cantBultos() {
+    if (cantidad <= 100) {
+      bultos = 1
+    } else {
+      if (cantidad >= 101 || cantidad <= 300) {
+        bultos = 2
+      } else {
+        bultos = 3
+      }
+    }
+    return bultos
   }
 }
 
@@ -49,6 +69,7 @@ object arena {
 }
 
 object bateria {
+  var bultos = 0
   var tieneMisiles = true
   var peso = 0
   var peligrosidad = 0
@@ -75,6 +96,15 @@ object bateria {
 
   method reaccion() {
     tieneMisiles = true
+  }
+
+  method cantBultos() {
+    if (tieneMisiles) {
+      bultos = 2
+    } else {
+      bultos = 1
+    }
+    return bultos
   }
 }
 
@@ -106,6 +136,10 @@ object contenedor {
   method reaccion() {
     cosas.forEach({c => c.reaccion()})
   }
+
+  method cantBultos() {
+    return 1 + cosas.size()
+  }
 }
 
 
@@ -130,5 +164,5 @@ object embalaje {
     
   }
 
-  method cantBultos() = 0
+  method cantBultos() = 1 
 }
